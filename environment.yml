@@ -1,0 +1,43 @@
+name: zumis
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  # General tools
+  - samtools>=1.5
+  - star>=2.5.4b
+  - pigz>=2.3
+  - R>=3.4
+  
+  # R CRAN packages
+  - r-inflection
+  - r-yaml
+  - r-shiny
+  - r-shinythemes
+  - r-ggplot2
+  - r-mclust
+  - r-dplyr
+  - r-cowplot
+  - r-matrix
+  - r-stringdist
+  - r-data.table
+  - r-stringr
+  - r-extradistr
+  
+  # R Bioconductor packages
+  - bioconductor-genomicranges
+  - bioconductor-genomicfeatures
+  - bioconductor-genomicalignments
+  - bioconductor-annotationdbi
+  - bioconductor-genomeinfodb
+  - bioconductor-plyranges
+  
+  # Python (optional, for faster demultiplexing)
+  - python>=3.6
+  - pysam>=0.15
+  
+  # pip packages
+  - pip
+  - pip:
+    - ggrastr
