@@ -17,11 +17,11 @@ function splitfq() {
 	nl=`expr $n \* 4`
   pref=`basename $fqfile`
   d=`dirname $fqfile`
-  split --lines=$nl --filter=''$pexc' -p '$nthreads' > $FILE.gz' $fqfile $t$pref$project
+  split --lines=$nl --filter="$pexc -p $nthreads" $fqfile ${t}x_${pref}${project}
 
-	ls $t$pref$project* | sed "s|$t$pref$project||" > $t/$project.listPrefix.txt
+	ls ${t}x_${pref}${project}* | sed "s|${t}x_${pref}${project}||" > $t/$project.listPrefix.txt
 
-	exit 1
+	return 0
 }
 function splitfqgz() {
 	fqfile=$1
@@ -36,11 +36,11 @@ function splitfqgz() {
   nl=`expr $n \* 4`
   pref=`basename $fqfile .gz`
   d=`dirname $fqfile`
-  $pexc -dc -p $nthreads $d/$pref.gz | split --lines=$nl --filter=''$pexc' -p '$nthreads' > $FILE.gz' - $t$pref$project
+  $pexc -dc -p $nthreads $d/${pref}.gz | split --lines=$nl --filter="$pexc -p $nthreads" - ${t}x_${pref}${project}
 
-	ls $t$pref$project* | sed "s|$t$pref$project||" | sed 's/.gz//' > $t/$project.listPrefix.txt
+	ls ${t}x_${pref}${project}* | sed "s|${t}x_${pref}${project}||" | sed 's/.gz//' > $t/$project.listPrefix.txt
 
-	exit 1
+	return 0
 }
 
 i=$1
