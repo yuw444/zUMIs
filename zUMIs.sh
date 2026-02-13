@@ -147,12 +147,11 @@ if [[ ${conda} = true ]] ; then
   fi
   echo "Rscript_exec: ${Rexc}" >> ${yaml}
 
-  zumisenv=${zumisdir}/zUMIs-env
-  miniconda=${zumisdir}/zUMIs-miniconda.tar.bz2
-  #check if zUMIs environment has been unpacked from tar
-  if [[ ! -d ${zumisenv} ]] || [[ ${zumisdir}/zUMIs-miniconda.partaa -nt ${zumisenv} ]] ; then
-    [ -d ${zumisenv} ] || mkdir -p ${zumisenv}
-    cat ${zumisdir}/zUMIs-miniconda.parta* > ${miniconda}
+zumisenv=${zumisdir}/bin/zUMIs-env
+miniconda=${zumisdir}/bin/zUMIs-miniconda.tar.bz2
+
+if [[ ! -d ${zumisenv} ]] || [[ ${zumisdir}/bin/zUMIs-miniconda.partaa -nt ${zumisenv} ]] ; then
+  cat ${zumisdir}/bin/zUMIs-miniconda.parta* > ${miniconda}
     tar -xj --overwrite -f ${miniconda} -C ${zumisenv}
   fi
   #activate zUMIs environment!
@@ -168,7 +167,7 @@ else
     echo "zUMIs_directory: ${zumisdir}" >> ${yaml}
 fi
 
-${Rexc} ${zumisdir}/checkyaml.R ${yaml} > ${project}.zUMIs_YAMLerror.log
+${Rexc} ${zumisdir}/filtering/checkyaml.R ${yaml} > ${project}.zUMIs_YAMLerror.log
 iserror=$(tail ${project}.zUMIs_YAMLerror.log -n1 | awk '{print $2}')
 
 if [[ ${iserror} -eq 1 ]] ; then
@@ -242,7 +241,7 @@ if [[ "${whichStage}" == "Filtering" ]] ; then
       rm ${tmpMerge}/${project}.1mio.check.fq.gz
       nreads=$(expr ${fullsize} \* 1000000 / ${smallsize})
 
-      for i in ${fqfiles} ; do bash ${zumisdir}/splitfq.sh ${i} ${pigzexc} ${num_threads} ${tmpMerge} splitfqgz ${project} ${nreads} & done
+      for i in ${fqfiles} ; do bash ${zumisdir}/filtering/splitfq.sh ${i} ${pigzexc} ${num_threads} ${tmpMerge} splitfqgz ${project} ${nreads} & done
       wait
       pref=$(basename ${f} .gz)
       l=$(ls ${tmpMerge}${pref}* | sed "s|${tmpMerge}${pref}||" | sed 's/.gz//')
@@ -252,7 +251,7 @@ if [[ "${whichStage}" == "Filtering" ]] ; then
       rm ${tmpMerge}/${project}.1mio.check.fq
       nreads=$(expr ${fullsize} \* 1000000 / ${smallsize})
 
-      for i in ${fqfiles} ; do bash ${zumisdir}/splitfq.sh ${i} ${pigzexc} ${num_threads} ${tmpMerge} splitfq ${project} ${nreads} & done
+      for i in ${fqfiles} ; do bash ${zumisdir}/filtering/splitfq.sh ${i} ${pigzexc} ${num_threads} ${tmpMerge} splitfq ${project} ${nreads} & done
       wait
       pref=$(basename ${f})
       l=$(ls ${tmpMerge}${pref}* | sed "s|${tmpMerge}${pref}||")
@@ -260,7 +259,7 @@ if [[ "${whichStage}" == "Filtering" ]] ; then
 
   for x in ${l} ; do perl ${zumisdir}/fqfilter_v2.pl ${yaml} ${samtoolsexc} ${Rexc} ${pigzexc} ${zumisdir} ${x} & done
   wait
-  bash ${zumisdir}/mergeBAM.sh ${zumisdir} ${tmpMerge} ${num_threads} ${project} ${outdir} ${yaml} ${samtoolsexc}
+  bash ${zumisdir}/filtering/mergeBAM.sh ${zumisdir} ${tmpMerge} ${num_threads} ${project} ${outdir} ${yaml} ${samtoolsexc}
   for i in ${fqfiles} ; do
       pref=$(basename ${i} | sed 's/.fastq.gz//' | sed 's/.fq.gz//')
       rm ${tmpMerge}${pref}*gz
@@ -268,7 +267,7 @@ if [[ "${whichStage}" == "Filtering" ]] ; then
   date
 
   #run barcode detection
-  ${Rexc} ${zumisdir}/zUMIs-BCdetection.R ${yaml}
+  ${Rexc} ${zumisdir}/barcode/zUMIs-BCdetection.R ${yaml}
 
   #check if BC correction should be performed!
   BCbinTable=${outdir}/zUMIs_output/"${project}".BCbinning.txt
@@ -288,7 +287,7 @@ if
 [[ "${whichStage}" == "Filtering" ]] ||
 [[ "${whichStage}" == "Mapping" ]] ; then
   echo "Mapping..."
-    ${Rexc} ${zumisdir}/zUMIs-mapping.R ${yaml}
+    ${Rexc} ${zumisdir}/mapping/zUMIs-mapping.R ${yaml}
   date
 fi
 
@@ -297,12 +296,12 @@ if
 [[ "${whichStage}" == "Mapping" ]] ||
 [[ "${whichStage}" == "Counting" ]] ; then
   echo "Counting..."
-  ${Rexc} ${zumisdir}/zUMIs-dge2.R ${yaml}
+  ${Rexc} ${zumisdir}/counting/zUMIs-dge2.R ${yaml}
   date
-  ${Rexc} ${zumisdir}/misc/rds2loom.R ${yaml}
+  ${Rexc} ${zumisdir}/postprocess/rds2loom.R ${yaml}
   date
   if [[ "${velo}" == "yes" ]] ; then
-    ${Rexc} ${zumisdir}/runVelocyto.R ${yaml}
+    ${Rexc} ${zumisdir}/postprocess/runVelocyto.R ${yaml}
   fi
 fi
 
@@ -313,7 +312,7 @@ if
 [[ "${whichStage}" == "Summarising" ]] ; then
   if [[ "${isstats}" == "yes" ]] ; then
     echo "Descriptive statistics..."
-      ${Rexc} ${zumisdir}/zUMIs-stats2.R ${yaml}
+      ${Rexc} ${zumisdir}/stats/zUMIs-stats2.R ${yaml}
   fi
   date
 fi

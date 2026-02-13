@@ -23,7 +23,7 @@ featColors<-c("#1A5084", "#914614" ,"#118730","grey33","tan1","#631879FF","gold1
 names(featColors)<-c("Exon","Intron+Exon","Intron","Unmapped","Ambiguity","MultiMapping","Intergenic","Unused BC","User")
 #####################################
 
-source(paste0(opt$zUMIs_directory,"/statsFUN.R"))
+source(paste0(opt$zUMIs_directory,"/stats/statsFUN.R"))
 #splitRG <- function(x) {0}
 #suppressMessages(insertSource(paste0(opt$zUMIs_directory,"/UMIstuffFUN.R"), functions="splitRG"))
 

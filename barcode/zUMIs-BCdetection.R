@@ -9,7 +9,7 @@ myYaml <- commandArgs(trailingOnly = T)
 
 opt   <-read_yaml(myYaml)
 setwd(opt$out_dir)
-source(paste0(opt$zUMIs_directory,"/barcodeIDFUN.R"))
+source(paste0(opt$zUMIs_directory,"/barcode/barcodeIDFUN.R"))
 options(datatable.fread.input.cmd.message=FALSE)
 
 if(opt$num_threads < 32){
