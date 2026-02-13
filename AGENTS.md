@@ -75,6 +75,32 @@ zUMIs - UCLA/Mount Sinai RNA-seq pipeline. Perl/R/Python/Bash workflow for singl
 - **Perl modules**: `.pm` files in filtering/
 - **Config**: YAML-based, validated by `filtering/checkyaml.R`
 
+## FASTQ FILE STRUCTURE (sequence_files)
+The YAML config defines input FASTQ files with base definitions:
+
+```yaml
+sequence_files:
+  file1:
+    name: /path/to/read_1.fq.gz
+    base_definition:
+      - cDNA(25-150)        # cDNA sequence position range
+      - UMI(12-21)          # UMI position range
+    find_pattern: ATTGCGCAATG;2  # Optional: pattern to find (with mismatches)
+  file2:
+    name: /path/to/read_2.fq.gz
+    base_definition:
+      - cDNA(1-150)        # cDNA on second read
+      - BC(151-170)        # Cell barcode on second read
+```
+
+**base_definition format**: `TYPE(START-END)`
+- `cDNA(n-m)`: cDNA sequence positions
+- `UMI(n-m)`: UMI/barcode positions
+- `BC(n-m)`: Cell barcode positions
+- Multiple ranges can be comma-separated: `BC(1-6,20-26)`
+
+**find_pattern**: Pattern to locate in reads (format: `SEQUENCE;MISMATCHES`)
+
 ## ANTI-PATTERNS (THIS PROJECT)
 - No test suite - testing conventions not established
 
