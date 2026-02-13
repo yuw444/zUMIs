@@ -4,17 +4,18 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  # General tools
-  - samtools>=1.5
-  - star>=2.5.4b
+  # General tools (versions tested per README/wiki)
+  - samtools>=1.9
+  - star>=2.7
   - pigz>=2.3
-  - R>=3.4
+  - R>=4.0
   
-  # R CRAN packages
+  # R CRAN packages (per wiki + actual usage)
   - r-inflection
   - r-yaml
   - r-shiny
   - r-shinythemes
+  - r-shinybs
   - r-ggplot2
   - r-mclust
   - r-dplyr
@@ -24,20 +25,32 @@ dependencies:
   - r-data.table
   - r-stringr
   - r-extradistr
+  - r-stringi
+  - r-optparse
+  - r-loomr
+  - r-devtools
+  - r-biocmanager
   
-  # R Bioconductor packages
+  # R Bioconductor packages (per wiki + actual usage)
   - bioconductor-genomicranges
   - bioconductor-genomicfeatures
   - bioconductor-genomicalignments
   - bioconductor-annotationdbi
   - bioconductor-genomeinfodb
   - bioconductor-plyranges
+  - bioconductor-rsamtools
+  - bioconductor-s4vectors
+  - bioconductor-iranges
+  - bioconductor-biostrings
+  - bioconductor-delayedarray
+  - bioconductor-biobase
+  - bioconductor-biocparallel
   
   # Python (optional, for faster demultiplexing)
   - python>=3.6
   - pysam>=0.15
   
-  # pip packages
+  # pip packages (ggrastr requires devtools install, available via pip)
   - pip
   - pip:
     - ggrastr
