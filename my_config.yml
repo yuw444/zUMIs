@@ -1,0 +1,50 @@
+project: Smartseq3xpress
+sequence_files:
+  file1:
+    name: /Users/yu89975/Documents/zUMIs/tests/fastq/PBMCs.run2.read_1.fq.gz
+    base_definition:
+      - cDNA(25-150)
+      - UMI(12-21)
+    find_pattern: ATTGCGCAATG;2
+  file2:
+    name: /Users/yu89975/Documents/zUMIs/tests/fastq/PBMCs.run2.read_2.fq.gz
+    base_definition:
+      - cDNA(1-150)
+      - BC(151-170)
+reference:
+  STAR_index: /genomes/Human/STAR7idx_noGTF/
+  GTF_file: /genomes/Human/Homo_sapiens.GRCh38.95.chr.gtf
+  additional_STAR_params: '--clip3pAdapterSeq CTGTCTCTTATACACATCT'
+  additional_files:
+out_dir: /Smartseq3xpress/zUMIs
+num_threads: 20
+mem_limit: 50
+filter_cutoffs:
+  BC_filter:
+    num_bases: 4
+    phred: 20
+  UMI_filter:
+    num_bases: 3
+    phred: 20
+barcodes:
+  barcode_num: ~
+  barcode_file: null
+  automatic: yes
+  BarcodeBinning: 1
+  demultiplex: no
+  nReadsperCell: 100
+  discardReads: yes
+counting_opts:
+  introns: yes
+  downsampling: '0'
+  strand: 1
+  Ham_Dist: 1
+  velocyto: no
+  primaryHit: yes
+  twoPass: no
+make_stats: yes
+which_Stage: Filtering
+samtools_exec: samtools
+pigz_exec: pigz
+STAR_exec: STAR
+Rscript_exec: Rscript

@@ -1,3 +1,5 @@
 zUMIs-env/
 zUMIs-miniconda.tar.bz2
 ExampleData/fastq
+tests/fastq
+env/
