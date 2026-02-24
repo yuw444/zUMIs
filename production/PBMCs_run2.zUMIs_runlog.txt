@@ -1,0 +1,13 @@
+
+
+ You provided these parameters:
+ YAML file:	/scratch/g/chlin/Yu/zUMIs/production_config.yml
+ zUMIs directory:		/scratch/g/chlin/Yu/zUMIs
+ STAR executable		STAR
+ samtools executable		samtools
+ pigz executable		pigz
+ Rscript executable		Rscript
+ RAM limit:   50
+ zUMIs version 2.9.7e 
+
+

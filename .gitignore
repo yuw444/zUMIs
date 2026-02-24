@@ -3,3 +3,8 @@ zUMIs-miniconda.tar.bz2
 ExampleData/fastq
 tests/fastq
 env/
+production/data
+production/output
+tests/data
+tests/output
+.vscode/

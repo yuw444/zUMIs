@@ -1,22 +1,23 @@
-project: Smartseq3xpress
+project: PBMCs_run2
 sequence_files:
   file1:
-    name: /Users/yu89975/Documents/zUMIs/tests/fastq/PBMCs.run2.read_1.fq.gz
+    name: /scratch/g/chlin/Yu/zUMIs/tests/data/PBMCs.run2.read_1.fq.gz
     base_definition:
-      - cDNA(25-150)
+      - cDNA(25-100)
       - UMI(12-21)
     find_pattern: ATTGCGCAATG;2
   file2:
-    name: /Users/yu89975/Documents/zUMIs/tests/fastq/PBMCs.run2.read_2.fq.gz
+    name: /scratch/g/chlin/Yu/zUMIs/tests/data/PBMCs.run2.read_2.fq.gz
     base_definition:
-      - cDNA(1-150)
-      - BC(151-170)
+      - cDNA(1-100)
+      - BC(101-120)
 reference:
-  STAR_index: /genomes/Human/STAR7idx_noGTF/
-  GTF_file: /genomes/Human/Homo_sapiens.GRCh38.95.chr.gtf
+  STAR_index: /scratch/g/chlin/library/hg38/star/
+  GTF_file: /scratch/g/chlin/library/hg38/genes/genes.gtf
   additional_STAR_params: '--clip3pAdapterSeq CTGTCTCTTATACACATCT'
   additional_files:
-out_dir: /Smartseq3xpress/zUMIs
+out_dir: /scratch/g/chlin/Yu/zUMIs/production_output
+read_layout: PE
 num_threads: 20
 mem_limit: 50
 filter_cutoffs:
@@ -48,3 +49,4 @@ samtools_exec: samtools
 pigz_exec: pigz
 STAR_exec: STAR
 Rscript_exec: Rscript
+zUMIs_directory: /scratch/g/chlin/Yu/zUMIs
